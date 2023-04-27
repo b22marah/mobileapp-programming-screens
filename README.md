@@ -1,9 +1,107 @@
 
 # Rapport
 
-**Skriv din rapport här!**
+## Adding Activity & Widgets
+Först började jag med att skapa en ny, tom, aktivitet till min applikation (activity_second).
+Till denna aktivitet skapade jag två stycken widgets, Button och TextView.
 
-_Du kan ta bort all text som finns sedan tidigare_.
+```
+<TextView
+        android:id="@+id/name"
+        ...
+        app:layout_constraintTop_toTopOf="parent" />
+
+<Button
+        android:id="@+id/close_second_activity"
+        ...
+        app:layout_constraintTop_toTopOf="@+id/name" />
+```
+
+## Adding a Button in the first activity that starts the second activity.
+För denna delen av uppgiften skapade jag först en knapp widget i (activity_main).
+Därefter började jag programmera funktionaliteten hos denna knapp (tillsammans med second_activity).
+Väl här började jag med att skapa en variabel som hänvisar till denna knapp, detta gör jag med hjälp av
+findViewById. Till detta skapade jag också en setOnClickListener, vilket näst i tur blev att skapa en funktion.
+I den nya funktionen skapar jag en Intent som hänvisar till min andra aktivitet som jag nämnde i tidigare steg.
+Sedan kallar jag en funktionalitet som heter "startActivity(Intent)", som skickar med min skapta intent med en funktion
+som startar själva aktiviteten, när onClick funktionen klickas.
+
+```
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button = findViewById(R.id.start_second_activity);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("name", "Yippie! We did it!!!");
+                startActivity(intent);
+            }
+        });
+    }
+}
+```
+
+## Adding data to the Intent using Extras
+För uppgiften har jag valt att använda mig utav en textView som tar emot en hårdkodad text när funktionen kallas (knappen klickas),
+Därav har jag endast lagt till en putExtra till min skapade Intent. Denna .putExtra skickar med texten "Yippie! We did it!!!"
+när onClick funktionen kallas och har namn "ID:t" "name". Väl i andra aktiviteten har jag skapat ett stycke kod som pekar ut den textView
+jag skapat i andra aktiviteten, i denna koden har jag ett stycke kod som använder sig utav setText för att sätta värdet av .putExtra
+till denna textView. Väl i den andra aktivitetens Java-kod så har jag också en funktion som pekar på knappen som finns i aktivitet två
+och avslutar onClick funktionen med en fördefinerad funktion "finish()". Detta resulterar i att aktivitet två stängs 
+och man går tillbaka till början, alltså aktivitet ett.
+
+### * Adding extras to my Intent.
+```
+  public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("name", "Yippie! We did it!!!");
+                startActivity(intent);
+            }
+```
+
+### * Sätter text till textView.
+```
+ protected void onCreate(Bundle savedInstanceState) {
+ 
+     ...
+        
+     Bundle extras = getIntent().getExtras();
+     if (extras != null) {
+         String name = extras.getString("name");
+         textView.setText(name);
+     }
+
+     ...
+
+ }
+```
+
+### * Avslutar aktivitet vid knapptryck.
+```
+ protected void onCreate(Bundle savedInstanceState) {
+ 
+     ...
+
+     Button close = findViewById(R.id.close_second_activity);
+     close.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          finish();
+        }
+     });
+ }
+```
+
+## Bilder på applikationen
+### Aktivitet Ett:
+![img.png](img.png)
+### Aktivitet Två:
+![img_1.png](img_1.png)
 
 ## Följande grundsyn gäller dugga-svar:
 
